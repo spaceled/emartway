@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+<script>
+{% block jquery %}
+var clientToken = "{{ client_token }}";
+
+braintree.setup(clientToken, "dropin", {
+  container: "payment-form"
+});
+
+{% endblock %}
+</script>
+
+{% block content %}
+	{% if not user_can_continue %}
+	<div class="container">
+		<div class="col-sm-6">
+			<p class="lead">Continue as Guest</p>
+			<form method="post" action="">
+				{% csrf_token %}
+				{% include 'includes/form.html' %}
+				<input type="submit" class="btn btn-primary btn-block" value="Continue as Guest">
+			</form>
+		</div>
+		<div class="col-sm-6">
+			<p class="lead">Login to Continue</p>
+			<form method="post" action="{% url 'login' %}">
+				{% csrf_token %}
+				{% include 'includes/form.html' %}
+				<input type="hidden" name="next" value='{{ next_url }}'>
+				<input type="submit" name="next" value="Login">
+			</form>
+			<div class="card-footer text-muted text-center"> 
+				New to eMartWay? <a href="{% url 'signup' %}">Sign up</a>
+			</div>
+			<div class="text-center">
+				<small>
+					<a href="{% url 'password_reset' %}" class="text-muted">Forgot your password?</a>
+				</small>
+			</div>
+		</div>
+		
+	{% else %}
+		<!-----------
+		<p class="lead">Order Summary</p>
+		
+		<table class="table">
+			
+			<tr>
+				<td>{{ order.cart.cartitem_set.count }} Item(s): </br>
+					<ul>
+						{% for i in order.cart.cartitem_set.all %} 
+							<b>{{ i.item.get_title }}</b> </br>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+			<tr><td>Cart Subtotal: {{ order.cart.subtotal }}</td></tr>
+			<tr><td>Tax: {{ order.cart_tax_total }}</td></tr>
+			<tr><td>Items Total: {{ order.cart.total }}</td></tr>
+			
+			<tr><td>Shipping: {{ order.shipping_total_price }}</td></tr>
+			<tr><td>Order Total: {{ order.order_total }}</td></tr>
+		</table>
+	</div>--------------->
+	
+	<div class="container text-center">
+		<div class="">
+			{% include 'includes/order_summary_short.html' with order=order %}
+			
+			<p><a href="{% url 'order_address' %}">Change an Address</a></p></br>
+		</div>
+		<form id="checkout" method="POST" action="{% url 'checkout_final' %}">
+			{% csrf_token %}
+			<div id="payment-form"></div>
+			<button class="btn btn-default" type="submit">Complete Order</button></br></br></br>
+		</form>
+	</div>
+	{% endif %}
+	
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

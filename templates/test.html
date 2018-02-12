@@ -1,0 +1,27 @@
+<div class="col-sm-6 text-center mx-auto d-block">
+		 <form method="GET" role="search" action="{% url 'products' %}">
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" name="q" value='{{ request.GET.q }}' placeholder="Search Ematyway" aria-label="Search Ematyway" aria-describedby="basic-addon2">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button">Search</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="float-right">
+			<i class="fas fa-shopping-cart fa-navbar-cart"></i> <a href='{% url "cart" %}'><span id="cart-count-badge" class='badge'>{{ request.session.cart_item_count }}</span></a>
+			<i class="fab fa-gratipay fa-1x"></i> <a href='{% url "cart" %}'><span id="cart-count-badge" class='badge'>{{ request.session.cart_item_count }}</span></a>
+		</div>
+	</div>
+	<div class="header-bottom">
+		<div class="float-left col-sm-3">
+			<a href="{% url 'home' %}"><img style="height:80px; width:120px" src="{% static 'img/logo.jpg' %}"></a>
+		</div>
+		<div class="float-left header-bottom-left">
+			<ul>
+				<li><a href="">DEALS</a></li>
+				<li><a href="">BRANDS</a></li>
+				<li><a href="">WHOLESALE</a></li>
+				<li><a href="">SUPPLIERS</a></li>
+			</ul>
+		</div>

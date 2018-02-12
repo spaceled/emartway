@@ -1,0 +1,175 @@
+{% load staticfiles %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}EmartWay{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+		<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="shortcut icon" type="image/png" href="{% static 'img/logo.png' %}"/>
+		<script src="https://js.braintreegateway.com/web/dropin/1.9.4/js/dropin.min.js"></script>
+		<script src="{% static 'js/custom.js' %}"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		{% block stylesheet %}{% endblock %}
+  </head>
+  <body>
+	{% block body %}
+		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+			<div class="col-sm-8">
+				<a class="navbar-brand col-sm-6" href="{% url 'home' %}">eMartWay</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+			<div class="col-sm-4 collapse navbar-collapse" id="navbarSupportedContent">
+				<i class="fas fa-phone"></i> <span class="phone-icon"> (+880)181-867-6146 </span>
+				<a class="phone-icon" href="{% url 'return' %}">Return Policy</a>
+					<div class="collapse navbar-collapse" id="mainMenu">
+						{% if user.is_authenticated %}
+						<ul class="navbar-nav ml-auto">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									{{ user.username }}
+									<img src="{% static 'img/01.jpg' %}" class="rounded-circle border border-info" width="25">
+								</a>
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledy="userMenu">
+									<h6 class="text-center">Signed in as <strong>{{ user.username }}</strong></h6>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#">My Profile</a>
+									<a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+									<a class="dropdown-item" href="{% url 'password_change' %}">Settings</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+								</div>
+							</li>
+						</ul>
+						{% else %}
+							<form class="form-inline ml-auto">
+								<a href="{% url 'login' %}">Log in </a>
+								<a href="{% url 'signup' %}"> / Sign up</a>
+							</form>
+						{% endif %}
+					</div>
+			</div>
+		</nav>
+			<div class="container bg-light">
+				</br>
+				<div class="container">
+						{% if messages %}
+						<div class="alert alert-success text-center alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							{% for message in messages %}
+								<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p></br>
+							{% endfor %}
+						</div>
+						{% endif %}
+				</div>
+			</div>
+			<div class="container">
+				<ol class="">
+					{% block breadcrumb %}
+					{% endblock %}
+				</ol>
+				{% block content %}
+				{% endblock %}
+				</ol>
+			</div>
+			
+			
+	{% endblock body %}
+	
+	{% block footer %}
+			<nav class="navbar navbar-dark footer-navbar bg-light">
+				<div class="col-sm-3">
+					<ul class="" style="list-style:none;">
+					<h6>ABOUT US</h6>
+						<li><a href="{% url 'home' %}">Why Trust Us</a></li>
+						<li><a href="{% url 'home' %}">Contact us</a></li>
+						<li><a href="{% url 'home' %}">Terms & Conditions</a></li>
+						<li><a href="{% url 'home' %}">Career</a></li>
+					<h6>FOR SELLER</h6>
+						<li><a href="{% url 'home' %}">Promote your business</a></li>
+						<li><a href="{% url 'home' %}">How to become a Seller</a></li>
+						<li><a href="{% url 'home' %}">Seller Security</a></li>
+						<li><a href="{% url 'home' %}">Wholesale</a></li>
+					</ul>
+				</div>
+				<div class="col-sm-3">
+					<ul class="" style="list-style:none;">
+					<h6>ABOUT US</h6>
+						<li><a href="{% url 'return' %}">Return Policy</a></li>
+						<li><a href="{% url 'home' %}">Contact us</a></li>
+						<li><a href="{% url 'home' %}">Terms & Conditions</a></li>
+						<li><a href="{% url 'home' %}">Career</a></li>
+					<h6>FOR SELLER</h6>
+						<li><a href="{% url 'home' %}">Promote your business</a></li>
+						<li><a href="{% url 'home' %}">How to become a Seller</a></li>
+						<li><a href="{% url 'home' %}">Seller Security</a></li>
+						<li><a href="{% url 'home' %}">Wholesale</a></li>
+					</ul>
+				</div>
+				<div class="col-sm-3">
+					<ul class="" style="list-style:none;">
+					<h6>ABOUT US</h6>
+						<li><a href="{% url 'home' %}">Why Trust Us</a></li>
+						<li><a href="{% url 'home' %}">Contact us</a></li>
+						<li><a href="{% url 'home' %}">Terms & Conditions</a></li>
+						<li><a href="{% url 'home' %}">Career</a></li>
+					<h6>FOR SELLER</h6>
+						<li><a href="{% url 'home' %}">Promote your business</a></li>
+						<li><a href="{% url 'home' %}">How to become a Seller</a></li>
+						<li><a href="{% url 'home' %}">Seller Security</a></li>
+						<li><a href="{% url 'home' %}">Wholesale</a></li>
+					</ul>
+				</div>
+				<div class="col-sm-3">
+					<ul class="" style="list-style:none;">
+					<h6>ABOUT US</h6>
+						<li><a href="{% url 'home' %}">Why Trust Us</a></li>
+						<li><a href="{% url 'contact' %}">Contact us</a></li>
+						<li><a href="{% url 'home' %}">Terms & Conditions</a></li>
+						<li><a href="{% url 'home' %}">Career</a></li>
+					<h6>FOR SELLER</h6>
+						<li><a href="{% url 'home' %}">Promote your business</a></li>
+						<li><a href="{% url 'home' %}">How to become a Seller</a></li>
+						<li><a href="{% url 'home' %}">Seller Security</a></li>
+						<li><a href="{% url 'home' %}">Wholesale</a></li>
+					</ul>
+				</div>
+			</nav>
+			<div class="container">
+				<div class="text-center">
+					<h2 class="">We accept</h2>
+					<a href=""><img src="{% static 'img/paypal.jpg' %}" style="width:60px; height:60px" alt="" class="rounded border border-info"></a>
+					<a href=""><img src="{% static 'img/bkash.png' %}" style="width:60px; height:60px" alt="" class="rounded border border-info">
+					<a href=""><img src="{% static 'img/mastercard.png' %}" style="width:60px; height:60px" alt="" class="rounded border border-info">
+					<a href=""><img src="{% static 'img/american-express.png' %}" style="width:60px; height:60px" alt="" class="rounded">
+					<a href=""><img src="{% static 'img/rocket.jpg' %}" style="width:60px; height:60px" alt="" class="rounded">
+				</div></br>
+				<p class="text-center">developed by<a href="www.synbyt.com" title="visit SYNBYT"> SYNBYT</a></p></br></br>
+			</div>
+	{% endblock %}
+		<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script>
+			$(document).ready(function(){
+				{% block jquery %}
+				{% endblock %}
+			});
+		</script>
+  </body>
+</html>

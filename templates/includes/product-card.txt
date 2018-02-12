@@ -1,0 +1,20 @@
+<div class="container">
+	<div class="row">
+		<div class="border border-default col-sm-3">
+			<h4><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h4>
+			<div class="img-responsive">
+				{% if product.get_image_url %}
+					<a href="{{ product.get_absolute_url }}"><img id="img" class="img-responsive" style="width:180px; height:150px;" src="{{ product.get_image_url }}"></a></br>
+				{% endif %}
+			</div>
+			<div class="">
+				<small class="text-muted">
+					{% if price == "True" %}
+						<h5>${{ product.variation_set.first.get_price }}</h5>
+					{% endif %}
+					<button type="submit" class="btn btn-outline-success"><a href="{{ product.get_absolute_url }}">View Details</a></button>
+				</small>
+			</div>
+		</div>
+	</div>
+</div>

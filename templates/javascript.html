@@ -1,0 +1,26 @@
+{% load staticfiles %}
+	<script src="{% static 'js/custom.js' %}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<script>
+function updateCartItemCount(){
+	// Cart counting 
+		var badge = $("#cart-count-badge");
+		$.ajax({
+			type: "GET",
+			url: "{% url 'item_count' %}",
+			success: function(data){
+				badge.text(data.count);
+				console.logt(data.count);
+			},
+			error: function(response, error){
+				console.log(response) 
+				console.log(error);
+			}
+		})
+}
+$(document).ready(function(){
+	updateCartItemCount()
+})
+</script>

@@ -1,0 +1,11 @@
+<!------This is same as Tutorial's Product.html template ------->
+<div class='container'>
+	{% for product in object_list %}
+		<div class='col-xs-4 {{ col_class_set }}'>
+		{% include "includes/product_thumbnail.html" with product=product price="True" %}
+		</div>
+		{% if not col_class_set %}
+	{% endif %}
+	{% endfor %}
+
+</div>
